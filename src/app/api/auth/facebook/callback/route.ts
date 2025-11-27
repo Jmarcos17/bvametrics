@@ -146,6 +146,12 @@ export async function GET(request: Request) {
       );
     } else {
       // Admin connection - find existing or create new
+      if (!session?.user) {
+        return NextResponse.redirect(
+          new URL('/login', request.url)
+        );
+      }
+
       const existing = await db.facebookConnection.findFirst({
         where: { userId: session.user.id },
       });
