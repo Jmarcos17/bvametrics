@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import Credentials from 'next-auth/providers/credentials';
 import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
@@ -11,7 +10,8 @@ const loginSchema = z.object({
 });
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(db),
+  // Note: PrismaAdapter not needed for Credentials provider
+  // Only needed for OAuth providers (Google, Facebook, etc.)
   trustHost: true,
   session: {
     strategy: 'jwt',
