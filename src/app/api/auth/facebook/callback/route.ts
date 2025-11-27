@@ -15,13 +15,14 @@ import { db } from '@/lib/db';
 export async function GET(request: Request) {
   try {
     const session = await auth();
+    const cookieStore = await cookies();
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
     const state = searchParams.get('state');
     const error = searchParams.get('error');
 
     // Check if this is a client connection (has client token in cookie)
-    const clientToken = cookies().get('facebook_oauth_client_token')?.value;
+    const clientToken = cookieStore.get('facebook_oauth_client_token')?.value;
     const isClientConnection = !!clientToken;
 
     // For admin connections, require session
@@ -52,7 +53,7 @@ export async function GET(request: Request) {
     }
 
     // Validate state (state may contain client token separated by :)
-    const storedState = cookies().get('facebook_oauth_state')?.value;
+    const storedState = cookieStore.get('facebook_oauth_state')?.value;
     const stateParts = state.split(':');
     const actualState = stateParts[0];
     
@@ -68,9 +69,9 @@ export async function GET(request: Request) {
     }
 
     // Clear state cookies
-    cookies().delete('facebook_oauth_state');
+    cookieStore.delete('facebook_oauth_state');
     if (isClientConnection) {
-      cookies().delete('facebook_oauth_client_token');
+      cookieStore.delete('facebook_oauth_client_token');
     }
 
     const redirectUri =
@@ -181,7 +182,8 @@ export async function GET(request: Request) {
     }
   } catch (error) {
     console.error('Error in Facebook OAuth callback:', error);
-    const clientToken = cookies().get('facebook_oauth_client_token')?.value;
+    const cookieStore = await cookies();
+    const clientToken = cookieStore.get('facebook_oauth_client_token')?.value;
     
     if (clientToken) {
       return NextResponse.redirect(

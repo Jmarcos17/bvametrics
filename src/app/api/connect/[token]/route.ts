@@ -51,14 +51,15 @@ export async function GET(
     oauthUrl.searchParams.set('response_type', 'code');
 
     // Store state and client token in cookie
-    cookies().set('facebook_oauth_state', state, {
+    const cookieStore = await cookies();
+    cookieStore.set('facebook_oauth_state', state, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 600, // 10 minutes
     });
 
-    cookies().set('facebook_oauth_client_token', token, {
+    cookieStore.set('facebook_oauth_client_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
