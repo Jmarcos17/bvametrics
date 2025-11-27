@@ -6,8 +6,8 @@ import { useState } from 'react';
 interface ConnectionCardProps {
   id: string;
   fbUserId: string;
-  businessIds: string[] | number[];
-  adAccountIds: string[] | number[];
+  businessIds: string[] | number[] | null;
+  adAccountIds: string[] | number[] | null;
   expiresAt: Date | string | null;
   dataAccessExpiresAt: Date | string | null;
   createdAt: Date | string;
@@ -82,11 +82,11 @@ export function ConnectionCard({
             </div>
             <div className="rounded-lg bg-slate-50 p-3">
               <div className="text-xs font-medium text-slate-500 mb-1">Business Managers</div>
-              <div className="text-slate-900 font-semibold">{(businessIds as string[]).length || 0}</div>
+              <div className="text-slate-900 font-semibold">{Array.isArray(businessIds) ? businessIds.length : 0}</div>
             </div>
             <div className="rounded-lg bg-slate-50 p-3">
               <div className="text-xs font-medium text-slate-500 mb-1">Contas de Anúncio</div>
-              <div className="text-slate-900 font-semibold">{(adAccountIds as string[]).length || 0}</div>
+              <div className="text-slate-900 font-semibold">{Array.isArray(adAccountIds) ? adAccountIds.length : 0}</div>
             </div>
             <div className="rounded-lg bg-slate-50 p-3">
               <div className="text-xs font-medium text-slate-500 mb-1">Expira em</div>

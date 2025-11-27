@@ -7,8 +7,8 @@ import { ConnectionCard } from './ConnectionCard';
 interface Connection {
   id: string;
   fbUserId: string;
-  businessIds: string[] | number[];
-  adAccountIds: string[] | number[];
+  businessIds: string[] | number[] | null;
+  adAccountIds: string[] | number[] | null;
   expiresAt: Date | string | null;
   dataAccessExpiresAt: Date | string | null;
   createdAt: Date | string;
@@ -34,8 +34,8 @@ export function ConnectionsList({
           key={conn.id}
           id={conn.id}
           fbUserId={conn.fbUserId}
-          businessIds={conn.businessIds as string[]}
-          adAccountIds={conn.adAccountIds as string[]}
+          businessIds={(conn.businessIds as string[]) || []}
+          adAccountIds={(conn.adAccountIds as string[]) || []}
           expiresAt={conn.expiresAt}
           dataAccessExpiresAt={conn.dataAccessExpiresAt}
           createdAt={conn.createdAt}

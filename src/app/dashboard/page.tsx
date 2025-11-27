@@ -67,7 +67,13 @@ export default async function DashboardPage({
             </div>
           </div>
         ) : (
-          <ConnectionsList initialConnections={connections} />
+          <ConnectionsList 
+            initialConnections={connections.map(conn => ({
+              ...conn,
+              businessIds: (conn.businessIds as string[]) || null,
+              adAccountIds: (conn.adAccountIds as string[]) || null,
+            }))} 
+          />
         )}
       </div>
     </Layout>

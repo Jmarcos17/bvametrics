@@ -11,8 +11,8 @@ interface Connection {
   clientName?: string | null;
   clientEmail?: string | null;
   fbUserId: string;
-  businessIds: string[] | number[];
-  adAccountIds: string[] | number[];
+  businessIds: string[] | number[] | null;
+  adAccountIds: string[] | number[] | null;
   expiresAt: Date | string | null;
   dataAccessExpiresAt: Date | string | null;
   createdAt: Date | string;
@@ -99,12 +99,12 @@ export function AdminTable({ connections }: AdminTableProps) {
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
                     <span className="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
-                      {(conn.businessIds as string[]).length || 0}
+                      {Array.isArray(conn.businessIds) ? conn.businessIds.length : 0}
                     </span>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
                     <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
-                      {(conn.adAccountIds as string[]).length || 0}
+                      {Array.isArray(conn.adAccountIds) ? conn.adAccountIds.length : 0}
                     </span>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
